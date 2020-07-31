@@ -122,7 +122,7 @@ def flip_axis(x, axis):
     return x
 
 
-def array_to_img(x, dim_ordering=K.image_dim_ordering(), mode=None, scale=True):
+def array_to_img(x, dim_ordering=K.image_data_format(), mode=None, scale=True):
     from PIL import Image
     x = x.copy()
     if dim_ordering == 'th':
@@ -141,7 +141,7 @@ def array_to_img(x, dim_ordering=K.image_dim_ordering(), mode=None, scale=True):
         raise Exception('Unsupported array shape: ', x.shape)
 
 
-def img_to_array(img, dim_ordering=K.image_dim_ordering()):
+def img_to_array(img, dim_ordering=K.image_data_format()):
     if dim_ordering not in ['th', 'tf']:
         raise Exception('Unknown dim_ordering: ', dim_ordering)
     # image has dim_ordering (height, width, channel)
@@ -172,7 +172,7 @@ def list_pictures(directory, ext='jpg|jpeg|bmp|png'):
     return [os.path.join(directory, f) for f in os.listdir(directory)
             if os.path.isfile(os.path.join(directory, f)) and re.match('([\w]+\.(?:' + ext + '))', f)]
 
-def pil_image_reader(filepath, target_mode=None, target_size=None, dim_ordering=K.image_dim_ordering(), **kwargs):
+def pil_image_reader(filepath, target_mode=None, target_size=None, dim_ordering=K.image_data_format(), **kwargs):
     img = load_img(filepath, target_mode=target_mode, target_size=target_size)
     return img_to_array(img, dim_ordering=dim_ordering)
 
@@ -456,7 +456,7 @@ class ImageDataGenerator(object):
             any other transformation).
         dim_ordering: 'th' or 'tf'. In 'th' mode, the channels dimension
             (the depth) is at index 1, in 'tf' mode it is at index 3.
-            It defaults to the `image_dim_ordering` value found in your
+            It defaults to the `image_data_format` value found in your
             Keras config file at `~/.keras/keras.json`.
             If you never set it, then it will be "th".
         seed: random seed for reproducible pipeline processing. If not None, it will also be used by `flow` or
@@ -481,7 +481,7 @@ class ImageDataGenerator(object):
                  horizontal_flip=False,
                  vertical_flip=False,
                  rescale=None,
-                 dim_ordering=K.image_dim_ordering(),
+                 dim_ordering=K.image_data_format(),
                  seed=None,
                  verbose=1):
         self.config = copy.deepcopy(locals())
@@ -680,7 +680,7 @@ class NumpyArrayIterator(Iterator):
 
     def __init__(self, X, y, image_data_generator,
                  batch_size=32, shuffle=False, seed=None,
-                 dim_ordering=K.image_dim_ordering(),
+                 dim_ordering=K.image_data_format(),
                  save_to_dir=None, save_prefix='',
                  save_mode=None, save_format='jpeg',
                  pool=None):
@@ -762,7 +762,7 @@ class DirectoryIterator(Iterator):
                  color_mode=None, target_size=None,
                  image_reader="pil", read_formats={'png','jpg','jpeg','bmp'},
                  reader_config={'target_mode': 'RGB', 'target_size':None},
-                 dim_ordering=K.image_dim_ordering,
+                 dim_ordering=K.image_data_format,
                  classes=None, class_mode='categorical',
                  batch_size=32, shuffle=True, seed=None,
                  save_to_dir=None, save_prefix='',
