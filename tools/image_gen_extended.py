@@ -300,7 +300,7 @@ def random_crop(x, random_crop_size, sync_seed=None, rng=None, **kwargs):
     offseth = 0 if rangeh == 0 else rng.randint(rangeh)
     return x[offsetw:offsetw+random_crop_size[0], offseth:offseth+random_crop_size[1], :]
 
-from keras.applications.inception_v3 import preprocess_input as pp
+from tensorflow.keras.applications.inception_v3 import preprocess_input as pp
 
 def preprocess_input(x, rng=None, **kwargs):
     return pp(x)
