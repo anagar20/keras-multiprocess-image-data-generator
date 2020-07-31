@@ -362,7 +362,7 @@ def array_to_img(x, dim_ordering='default', scale=True):
                          'Got array with shape:', x.shape)
 
     if dim_ordering == 'default':
-        dim_ordering = K.image_dim_ordering()
+        dim_ordering = K.image_data_format()
     if dim_ordering not in {'th', 'tf'}:
         raise ValueError('Invalid dim_ordering:', dim_ordering)
 
@@ -401,7 +401,7 @@ def img_to_array(img, dim_ordering='default'):
         ValueError: if invalid `img` or `dim_ordering` is passed.
     """
     if dim_ordering == 'default':
-        dim_ordering = K.image_dim_ordering()
+        dim_ordering = K.image_data_format()
     if dim_ordering not in {'th', 'tf'}:
         raise ValueError('Unknown dim_ordering: ', dim_ordering)
     # Numpy array x has format (height, width, channel)
@@ -489,7 +489,7 @@ class ImageDataGenerator(object):
             and should output a Numpy tensor with the same shape.
         dim_ordering: 'th' or 'tf'. In 'th' mode, the channels dimension
             (the depth) is at index 1, in 'tf' mode it is at index 3.
-            It defaults to the `image_dim_ordering` value found in your
+            It defaults to the `image_data_format` value found in your
             Keras config file at `~/.keras/keras.json`.
             If you never set it, then it will be "tf".
         pool: an open multiprocessing.Pool that will be used to
@@ -519,7 +519,7 @@ class ImageDataGenerator(object):
                  dim_ordering='default',
                  pool=None):
         if dim_ordering == 'default':
-            dim_ordering = K.image_dim_ordering()
+            dim_ordering = K.image_data_format()
         self.featurewise_center = featurewise_center
         self.samplewise_center = samplewise_center
         self.featurewise_std_normalization = featurewise_std_normalization
@@ -817,7 +817,7 @@ class NumpyArrayIterator(Iterator):
                              'Found: X.shape = %s, y.shape = %s' %
                              (np.asarray(x).shape, np.asarray(y).shape))
         if dim_ordering == 'default':
-            dim_ordering = K.image_dim_ordering()
+            dim_ordering = K.image_data_format()
         self.x = np.asarray(x)
         if self.x.ndim != 4:
             raise ValueError('Input data in `NumpyArrayIterator` '
@@ -895,7 +895,7 @@ class DirectoryIterator(Iterator):
                  save_to_dir=None, save_prefix='', save_format='jpeg',
                  follow_links=False, pool=None):
         if dim_ordering == 'default':
-            dim_ordering = K.image_dim_ordering()
+            dim_ordering = K.image_data_format()
         self.directory = directory
         self.image_data_generator = image_data_generator
         self.target_size = tuple(target_size)
