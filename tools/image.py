@@ -15,7 +15,7 @@ import threading
 import warnings
 
 # from .. import backend as K
-import keras.backend as K
+import tensorflow.keras.backend as K
 
 try:
     from PIL import Image as pil_image
