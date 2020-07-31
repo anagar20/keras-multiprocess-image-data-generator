@@ -18,7 +18,7 @@ import inspect
 import types
 import multiprocessing as mp
 
-import keras.backend as K
+import tensorflow.keras.backend as K
 
 def random_rotation(x, rg, row_index=1, col_index=2, channel_index=0,
                     fill_mode='nearest', cval=0., rng=None):
